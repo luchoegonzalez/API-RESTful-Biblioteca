@@ -7,4 +7,11 @@ const showInternalError = (res: Response, error: Error) => {
     });
 }
 
-export {showInternalError};
+const showNotFound = (res: Response) => {
+    res.status(404).json({
+      success: false,
+      message: 'Book not found'
+    });
+}
+
+export {showInternalError, showNotFound};

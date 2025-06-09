@@ -1,6 +1,6 @@
 import { Request, Response } from 'express';
 import Book from '../models/booksModel';
-import {showInternalError} from '../utils/handleError'
+import {showInternalError, showNotFound} from '../utils/handleError'
 
 const getBooks = async (req: Request, res: Response): Promise<any> => {
   try {
@@ -20,10 +20,7 @@ const getBookById = async (req: Request, res: Response): Promise<any> => {
     const { id } = req.params;
     const book = await Book.findById(id);
     if (!book) {
-      return res.status(404).json({
-        success: false,
-        message: 'Book not found'
-      });
+      return showNotFound(res);
     }
 
     res.status(200).json({
@@ -75,7 +72,7 @@ const updateBook = async (req: Request, res: Response): Promise<any> => {
     const { id } = req.params;
     const { title, author, publishedYear, genre, available } = req.body;
 
-    // --- Validacion de lo que contiene el body desde el server --- 
+    // --- Validacion de lo que contiene el body desde el server (¿Esta bien hacer esto asi profe?) --- 
     if (title && typeof title !== 'string') {
       return res.status(400).json({ success: false, message: 'Title must be a string' });
     }
@@ -100,10 +97,7 @@ const updateBook = async (req: Request, res: Response): Promise<any> => {
     const updatedBook = await Book.findByIdAndUpdate(id, req.body, { new: true });
 
     if (!updatedBook) {
-      return res.status(404).json({
-        success: false,
-        message: 'Book not found'
-      });
+      return showNotFound(res);
     }
 
     res.json({
@@ -121,11 +115,8 @@ const deleteBook = async (req: Request, res:Response): Promise<any> => {
   try {
     const {id} = req.params;
     const deletedBook = await Book.findByIdAndDelete(id, {new: true});
-    if(!deleteBook){
-      return res.status(404).json({
-        success: false,
-        message: 'Book not found'
-      });
+    if(!deletedBook){
+      return showNotFound(res);
     }
 
     res.status(200).json({
