@@ -18,4 +18,31 @@ const getBooks = async (req: Request, res: Response): Promise<any> => {
   }
 }
 
-export {getBooks};
+const getBookById = async (req: Request, res: Response): Promise<any> => {
+  try {
+    const { id } = req.params;
+    const book = await Book.findById(id);
+    if (!book) {
+      return res.status(404).json({
+        success: false,
+        message: 'Book not found'
+      });
+    }
+
+    res.status(200).json({
+      success: true,
+      data: book,
+      message: 'Book retrieved successfully'
+    });
+
+  } catch (error) {
+      const err = error as Error;
+      res.status(500).json({
+        success: false,
+        message: err.message
+      });
+  }
+
+}
+
+export {getBooks, getBookById};
