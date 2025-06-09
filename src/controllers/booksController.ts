@@ -132,4 +132,8 @@ const updateBook = async (req: Request, res: Response): Promise<any> => {
   }
 }
 
-export {getBooks, getBookById, createBook, updateBook};
+const deleteBook = async (req: Request, res:Response): Promise<any> => {
+
+}
+
+export {getBooks, getBookById, createBook, updateBook, deleteBook};
