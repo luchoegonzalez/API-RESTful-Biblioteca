@@ -45,4 +45,40 @@ const getBookById = async (req: Request, res: Response): Promise<any> => {
 
 }
 
-export {getBooks, getBookById};
+const createBook = async (req: Request, res: Response): Promise<any> => {
+  try {
+    const { title, author, publishedYear, genre, available } = req.body;
+
+    if (!title || !author) {
+      return res.status(400).json({
+        success: false,
+        message: 'Title and author are required'
+      });
+    }
+
+    const newBook = new Book({
+      title,
+      author,
+      publishedYear,
+      genre,
+      available
+    });
+
+    await newBook.save();
+
+    res.status(201).json({
+      success: true,
+      data: newBook,
+      message: 'Book created successfully'
+    });
+
+  } catch (error) {
+    const err = error as Error;
+    res.status(500).json({
+      success: false,
+      message: err.message
+    });
+  }
+}
+
+export {getBooks, getBookById, createBook};
