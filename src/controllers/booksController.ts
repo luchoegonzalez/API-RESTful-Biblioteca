@@ -11,11 +11,7 @@ const getBooks = async (req: Request, res: Response): Promise<any> => {
       message: 'Books retrieved successfully'
     });
   } catch (error) {
-    const err = error as Error;
-    res.status(500).json({
-      success: false,
-      message: err.message
-    });
+    showInternalError(res, error as Error);
   }
 }
 
@@ -37,11 +33,7 @@ const getBookById = async (req: Request, res: Response): Promise<any> => {
     });
 
   } catch (error) {
-      const err = error as Error;
-      res.status(500).json({
-        success: false,
-        message: err.message
-      });
+    showInternalError(res, error as Error);
   }
 
 }
@@ -74,11 +66,7 @@ const createBook = async (req: Request, res: Response): Promise<any> => {
     });
 
   } catch (error) {
-    const err = error as Error;
-    res.status(500).json({
-      success: false,
-      message: err.message
-    });
+    showInternalError(res, error as Error);
   }
 }
 
@@ -146,11 +134,7 @@ const deleteBook = async (req: Request, res:Response): Promise<any> => {
       message: "Book deleted successfully"
     })
   } catch (error) {
-    const err = error as Error;
-    res.status(500).json({
-      success: false,
-      message: err.message
-    });
+    showInternalError(res, error as Error);
   }
 }
 
