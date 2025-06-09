@@ -1,5 +1,6 @@
 import { Request, Response } from 'express';
 import Book from '../models/booksModel';
+import {showInternalError} from '../utils/handleError'
 
 const getBooks = async (req: Request, res: Response): Promise<any> => {
   try {
@@ -124,11 +125,7 @@ const updateBook = async (req: Request, res: Response): Promise<any> => {
     })
 
   } catch (error) {
-    const err = error as Error;
-    res.status(500).json({
-      success: false,
-      message: err.message
-    });
+    showInternalError(res, error as Error);
   }
 }
 
